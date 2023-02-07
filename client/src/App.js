@@ -48,14 +48,22 @@ const removeLineItem = (lineItemId) => {
   setLineItems(lineItems.filter(item => item.id !== lineItemId));
 };
 
+const addLineItem = (lineItem) => {
+  setLineItems([...lineItems, lineItem]);
+};
+
 return (<>
   <CartContainer>
       <CartTitle>Your Cart</CartTitle>
+      
       {lineItems.map(item => (
         <CartItem key={item.id} item={item} removeLineItem={removeLineItem}/>
       ))}
       
     </CartContainer>
+    <button onClick={() => addLineItem({ name: 'item', price: 10.99, quantity: 1})}>
+        Add Item
+      </button>
     <FeeContainer>
       <PriceCategory>
         <Label>Subtotal</Label>
