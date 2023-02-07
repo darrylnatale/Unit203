@@ -52,6 +52,23 @@ const addLineItem = (lineItem) => {
   setLineItems([...lineItems, lineItem]);
 };
 
+const calculateFees = (lineItems) => {
+  let subtotal = 0;
+  let tax = 0;
+  let shipping = 15;
+
+  lineItems.forEach((lineItem) => {
+    subtotal += lineItem.price * lineItem.quantity;
+  });
+
+  tax = subtotal * 0.13;
+  const total = subtotal + tax + shipping;
+
+  return { subtotal, tax, shipping, total };
+}
+
+const fees = calculateFees(lineItems)
+
 return (<>
   <CartContainer>
       <CartTitle>Your Cart</CartTitle>
@@ -67,19 +84,19 @@ return (<>
     <FeeContainer>
       <PriceCategory>
         <Label>Subtotal</Label>
-        <Value>{SUBTOTAL.toFixed(2)}</Value>
+        <Value>{fees.subtotal.toFixed(2)}</Value>
       </PriceCategory>
       <PriceCategory>
         <Label>Taxes (estimated)</Label>
-        <Value>{HST.toFixed(2)}</Value>
+        <Value>{fees.tax.toFixed(2)}</Value>
       </PriceCategory>
       <PriceCategory>
         <Label>Shipping</Label>
-        <Value>FREE</Value>
+        <Value>{fees.shipping.toFixed(2)}</Value>
       </PriceCategory>
       <PriceCategory>
         <Label>Total</Label>
-        <Value>{TOTAL.toFixed(2)}</Value>
+        <Value>{fees.total.toFixed(2)}</Value>
       </PriceCategory>
     </FeeContainer>
   </>
