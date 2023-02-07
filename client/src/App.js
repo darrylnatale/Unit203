@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import CartItem from "./Components/CartItem";
 
 const App = () => {
 
@@ -42,29 +43,35 @@ swatchTitle: "White"
 const SUBTOTAL = 2094.97;
 const HST = 272.3461;
 const TOTAL = 2382.3161;
-const ESTIMATED_DELIVERY = "Nov 24, 2021";
 
-return (
+
+return (<>
   <CartContainer>
       <CartTitle>Your Cart</CartTitle>
       {lineItems.map(item => (
-        <CartItemContainer key={item.id}>
-          <CartItemImage src={item.image} alt={item.title} />
-          <CartItemDetails>
-            <div>
-              <CartItemTitle>{item.title}</CartItemTitle>
-              <CartItemColor color={item.swatchColor} />
-              <CartItemColorTitle>{item.swatchTitle}</CartItemColorTitle>
-            </div>
-            <div>
-              <CartItemPrice>{item.price}</CartItemPrice>
-              <CartItemDelivery>{ESTIMATED_DELIVERY}</CartItemDelivery>
-              <CartItemRemoveButton>Remove</CartItemRemoveButton>
-            </div>
-          </CartItemDetails>
-        </CartItemContainer>
+        <CartItem key={item.id} item={item} />
       ))}
+      
     </CartContainer>
+    <FeeContainer>
+      <PriceCategory>
+        <Label>Subtotal</Label>
+        <Value>{SUBTOTAL.toFixed(2)}</Value>
+      </PriceCategory>
+      <PriceCategory>
+        <Label>Taxes (estimated)</Label>
+        <Value>{HST.toFixed(2)}</Value>
+      </PriceCategory>
+      <PriceCategory>
+        <Label>Shipping</Label>
+        <Value>FREE</Value>
+      </PriceCategory>
+      <PriceCategory>
+        <Label>Total</Label>
+        <Value>{TOTAL.toFixed(2)}</Value>
+      </PriceCategory>
+    </FeeContainer>
+  </>
 );
 
 }
@@ -82,57 +89,25 @@ const CartTitle = styled.div`
   margin-bottom: 10px;
 `;
 
-const CartItemContainer = styled.div`
-  display: flex;
-  margin-bottom: 10px;
-`;
-
-const CartItemImage = styled.img`
-  max-width: 400px;
-  margin-right: 10px;
-`;
-
-const CartItemDetails = styled.div`
+const FeeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: flex-end;
+  padding: 16px;
 `;
 
-const CartItemTitle = styled.div`
-  font-size: 18px;
-  margin-bottom: 10px;
+const PriceCategory = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 8px;
 `;
 
-const CartItemColor = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: ${props => props.color};
-  margin-bottom: 10px;
+const Label = styled.div`
+  font-weight: bold;
+  text-align: left;
 `;
 
-const CartItemColorTitle = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-`;
-
-const CartItemPrice = styled.div`
-  font-size: 18px;
-  margin-bottom: 10px;
-`;
-
-const CartItemDelivery = styled.div`
-  font-size: 14px;
-  margin-bottom: 10px;
-`;
-
-const CartItemRemoveButton = styled.button`
-  background-color: #f44336;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 14px;
-  cursor: pointer;
+const Value = styled.div`
+  text-align: right;
 `;
