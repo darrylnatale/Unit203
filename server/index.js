@@ -4,13 +4,42 @@ const cors = require('cors');
 const helmet = require("helmet")
 const port = 8000
 
+const DELIVERY_DATES = [
+  {
+  postal: "V",
+  ids: [2],
+  estimatedDeliveryDate: "Nov 24, 2021"
+  },
+  {
+  postal: "V",
+  ids: [1,3],
+  estimatedDeliveryDate: "Nov 19, 2021"
+  },
+  {
+  postal: "M",
+  ids: [2,3],
+  estimatedDeliveryDate: "Nov 22, 2021"
+  },
+  {
+  postal: "M",
+  ids: [1],
+  estimatedDeliveryDate: "Dec 19, 2021"
+  },
+  {
+  postal: "K",
+  ids: [1,2,3],
+  estimatedDeliveryDate: "Dec 24, 2021"
+  },
+  ]
+
 express()
 
 .use(express.json())
 .use(helmet())
 .use(cors())
 .get('/lineItems', (req, res) => {
-  res.status(200).json({status: 200, message: "Hello World!", data: [
+
+  const lineItems = [
     {
     id: 1,
     title: "Grey Sofa",
@@ -39,7 +68,18 @@ express()
     swatchColor: "#F8F1EC",
     swatchTitle: "White"
     },
-    ]})
+    ]
+    
+  const lineItemsWithEstimatedDelivery = lineItems.map((lineItem) => {
+    const deliveryData = DELIVERY_DATES.find((data) => data.postal === req.query.firstLetter.toUpperCase() && data.ids.includes(lineItem.id));
+    
+    return {
+      ...lineItem,
+      estimatedDeliveryDate: deliveryData ? deliveryData.estimatedDeliveryDate : ''
+    };
+  });
+
+  res.status(200).json({status: 200, message: "Hello World!", data: lineItemsWithEstimatedDelivery})
 })
 
 .listen(port, () => {
