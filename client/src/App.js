@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import CartItem from "./Components/CartItem";
-
+import { useState } from "react";
 const App = () => {
 
   //Styling variables
@@ -9,7 +9,7 @@ const LIGHT_GREY = "#6e7484";
 const BLACK = "#000000";
 
 //First part given
-const lineItems = [
+const [lineItems, setLineItems] = useState([
 {
 id: 1,
 title: "Grey Sofa",
@@ -38,18 +38,21 @@ image: "https://www.cozey.ca/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2
 swatchColor: "#F8F1EC",
 swatchTitle: "White"
 },
-];
+]);
 
 const SUBTOTAL = 2094.97;
 const HST = 272.3461;
 const TOTAL = 2382.3161;
 
+const removeLineItem = (lineItemId) => {
+  setLineItems(lineItems.filter(item => item.id !== lineItemId));
+};
 
 return (<>
   <CartContainer>
       <CartTitle>Your Cart</CartTitle>
       {lineItems.map(item => (
-        <CartItem key={item.id} item={item} />
+        <CartItem key={item.id} item={item} removeLineItem={removeLineItem}/>
       ))}
       
     </CartContainer>
