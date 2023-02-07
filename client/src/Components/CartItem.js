@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const CartItem = ({ item, removeLineItem }) => {
+    console.log(item)
     const { title, image, swatchColor, swatchTitle, price } = item;
     const ESTIMATED_DELIVERY = "Nov 24, 2021";
     return (
@@ -14,7 +15,7 @@ const CartItem = ({ item, removeLineItem }) => {
           </div>
           <div>
             <CartItemPrice>{price}</CartItemPrice>
-            <CartItemDelivery>Estimated Delivery Date: {ESTIMATED_DELIVERY}</CartItemDelivery>
+            <CartItemDelivery>Estimated Delivery Date: {item.estimatedDeliveryDate ? item.estimatedDeliveryDate : <>Please enter postal code</>}</CartItemDelivery>
             <CartItemRemoveButton onClick={() => removeLineItem(item.id)}>Remove</CartItemRemoveButton>
           </div>
         </CartItemDetails>

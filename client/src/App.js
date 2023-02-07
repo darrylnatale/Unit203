@@ -8,8 +8,9 @@
   const LIGHT_GREY = "#6e7484";
   const BLACK = "#000000";
 
-  //First part given
+  
   const [lineItems, setLineItems] = useState([]);
+  const [postalCode, setPostalCode] = useState('');
 
 
   const removeLineItem = (lineItemId) => {
@@ -38,27 +39,36 @@
   const fees = calculateFees(lineItems)
 
   useEffect(() => {
-    async function fetchLineItems() {
-      const res = await fetch("http://localhost:8000/lineItems");
+    console.log(postalCode)
+    const firstLetter = postalCode.charAt(0)
+    async function fetchLineItems(firstLetter) {
+      
+      const res = await fetch(`http://localhost:8000/lineItems?firstLetter=${firstLetter}`);
       const data = await res.json();
       setLineItems(data.data);
       console.log(data)
     }
-    fetchLineItems();
-  }, []);
-
+    fetchLineItems(firstLetter);
+  }, [postalCode]);
+console.log(lineItems)
   return (<>
     <CartContainer>
         <CartTitle>Your Cart</CartTitle>
         
         {lineItems.map(item => (
-          <CartItem key={item.id} item={item} removeLineItem={removeLineItem}/>
+          <CartItem key={item.id} item={item} removeLineItem={removeLineItem} estimatedDelivery={item.estimatedDelivery} />
         ))}
         
       </CartContainer>
       <button onClick={() => addLineItem({ name: 'item', price: 10.99, quantity: 1})}>
           Add Item
         </button>
+        <input type="text" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} placeholder="Enter Postal Code" />
+
+
+
+        
+
       <FeeContainer>
         <PriceCategory>
           <Label>Subtotal</Label>
