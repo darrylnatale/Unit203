@@ -4,9 +4,9 @@
   const App = () => {
 
     //Styling variables
-  const BLUE = "#172162"; //"rgb(23, 33, 98)";
-  const LIGHT_GREY = "#6e7484";
-  const BLACK = "#000000";
+    const BLUE = "#172162"; //"rgb(23, 33, 98)";
+    const LIGHT_GREY = "#6e7484";
+    const BLACK = "#000000";
 
   
   const [lineItems, setLineItems] = useState([]);
@@ -39,7 +39,7 @@
   const fees = calculateFees(lineItems)
 
   useEffect(() => {
-    console.log(postalCode)
+    
     const firstLetter = postalCode.charAt(0)
     async function fetchLineItems(firstLetter) {
       
@@ -50,7 +50,7 @@
     }
     fetchLineItems(firstLetter);
   }, [postalCode]);
-console.log(lineItems)
+
   return (<>
     <CartContainer>
         <CartTitle>Your Cart</CartTitle>
@@ -103,6 +103,7 @@ console.log(lineItems)
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: #172162;
   `;
 
   const FeeContainer = styled.div`

@@ -1,24 +1,30 @@
 import styled from "styled-components";
 
 const CartItem = ({ item, removeLineItem }) => {
-    console.log(item)
+  const BLUE = "#172162"; //"rgb(23, 33, 98)";
+  const LIGHT_GREY = "#6e7484";
+  const BLACK = "#000000";
     const { title, image, swatchColor, swatchTitle, price } = item;
-    const ESTIMATED_DELIVERY = "Nov 24, 2021";
+    
     return (
       <CartItemContainer>
         <CartItemImage src={image} alt={title} />
         <CartItemDetails>
-          <div>
+         
             <CartItemTitle>{title}</CartItemTitle>
+         
+            <ColorDetails>
             <CartItemColor color={swatchColor} />
             <CartItemColorTitle>{swatchTitle}</CartItemColorTitle>
-          </div>
-          <div>
-            <CartItemPrice>{price}</CartItemPrice>
+            </ColorDetails>
+          </CartItemDetails>
+          <PricingDetails>
+          
+            <CartItemPrice>${price}</CartItemPrice>
             <CartItemDelivery>Estimated Delivery Date: {item.estimatedDeliveryDate ? item.estimatedDeliveryDate : <>Please enter postal code</>}</CartItemDelivery>
             <CartItemRemoveButton onClick={() => removeLineItem(item.id)}>Remove</CartItemRemoveButton>
-          </div>
-        </CartItemDetails>
+          
+            </PricingDetails>
       </CartItemContainer>
     );
   };
@@ -36,15 +42,21 @@ const CartItemImage = styled.img`
 `;
 
 const CartItemDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
+  width: 25%
 `;
 
+const PricingDetails = styled.div`
+text-align: right;
+width: 75%
+`
+
+const ColorDetails = styled.div`
+display: flex;
+`
 const CartItemTitle = styled.div`
   font-size: 18px;
   margin-bottom: 10px;
+  
 `;
 
 const CartItemColor = styled.div`
@@ -58,6 +70,7 @@ const CartItemColor = styled.div`
 const CartItemColorTitle = styled.div`
   font-size: 14px;
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const CartItemPrice = styled.div`
@@ -71,8 +84,9 @@ const CartItemDelivery = styled.div`
 `;
 
 const CartItemRemoveButton = styled.button`
-  background-color: #f44336;
-  color: #fff;
+  background-color: transparent;
+  color: black;
+  text-decoration: underline;
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
